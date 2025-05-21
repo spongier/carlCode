@@ -1,5 +1,4 @@
-package 二分查找;
-
+package array.二分查找;
 class BinarySearch {
     // 二分查找大前提：有序！！数组
 
@@ -99,5 +98,10 @@ class BinarySearch {
             }
         }
         return r;
+    }
+
+    public static void main(String[] args){
+        BinarySearch test = new BinarySearch();
+        test.mySqrt(12);
     }
 }

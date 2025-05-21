@@ -69,10 +69,10 @@ class RemoveEle {
     int sp = s.length() - 1;
     int tp = t.length() - 1;
     int sNum = 0, tNum = 0;
-    while (sp >= 0 && tp >= 0) {
+    while (sp >= 0 || tp >= 0) {
       // 处理#
       while(sp >= 0) {
-        if (s.indexOf(sp) == '#'){
+        if (s.charAt(sp) == '#'){
           sNum++;
         } else {
           if (sNum > 0){
@@ -85,7 +85,7 @@ class RemoveEle {
         sp--;
       }
       while(tp >= 0) {
-        if (t.indexOf(tp) == '#'){
+        if (t.charAt(tp) == '#'){
           tNum++;
         } else {
           if (tNum > 0){
@@ -99,12 +99,21 @@ class RemoveEle {
       }
 
       // 处理完全部#
-      if (sp < 0 || tp < 0) return false;
-      if (s.indexOf(sp) != t.indexOf(tp)) return false;
+      if (sp >= 0 && tp >= 0){
+        if (s.charAt(sp) != t.charAt(tp)) return false;  
+      } else {
+        if (sp >= 0 || tp >= 0) return false;  // 还存在一种情况，sp、tp都<0，这种就是true
+      }
       sp--;
       tp--;
     }
     return sp == -1 && tp == -1;
+  }
+
+
+  public static void main(String[] args) {
+    RemoveEle test = new RemoveEle();
+    test.backspaceCompare("bxj##tw", "bxj###tw");
   }
 
 }

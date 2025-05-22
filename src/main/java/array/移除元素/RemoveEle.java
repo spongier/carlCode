@@ -107,7 +107,29 @@ class RemoveEle {
       sp--;
       tp--;
     }
-    return sp == -1 && tp == -1;
+    return true;
+  }
+
+
+
+  // lc 977
+  // 思路：一头一尾比较绝对值，谁大就平方放入新数组“当前最后一位”，
+  public int[] sortedSquares(int[] nums) {
+    int[] res = new int[nums.length];
+    int l = 0, r = nums.length - 1;
+    int pos = nums.length - 1;
+
+    while (l <= r) {
+      if (Math.abs(nums[l]) > Math.abs(nums[r])) {
+        res[pos--] = nums[l] * nums[l]; 
+        l++;
+      } else {
+        res[pos--] = nums[r] * nums[r];
+        r--;
+      }
+    }
+
+    return res;
   }
 
 

@@ -1,7 +1,5 @@
-package array.长度最小的子数组;
+package array.滑动窗口;
 
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 
 class SlideWindow {
@@ -92,6 +90,20 @@ class SlideWindow {
         return res == Integer.MAX_VALUE ? "" : s.substring(L, L + res);
     }
 
+    //lc 3 按照滑动窗口标准模板来
+    public int lengthOfLongestSubstring(String s) {
+        char[] st = s.toCharArray();
+        int[] hash = new int[128];
+        int res = 0;
+        for (int i = 0, j = 0; j < st.length; j++) {
+            // j元素历史出现过，左窗口一直缩小到历史出现过j值的位置
+            while (i < j && hash[st[j]] != 0)   hash[st[i++]]--;
+            hash[st[j]]++;
+            res = Math.max(res, j - i + 1);
+        }
+        return res;
+    }
+
 
     public static void main(String[] args) {
         SlideWindow test = new SlideWindow();
@@ -102,6 +114,7 @@ class SlideWindow {
 
         String s = "ADOBECODEBANC";
         String t = "ABC";
-        String res = test.minWindow(s, t);
+        String m = "tmmzuxt";
+        test.lengthOfLongestSubstring(m);
     }
 }

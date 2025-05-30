@@ -41,45 +41,46 @@ class BinarySearch {
     // lc 34 升序
     // 常规二分查找l=r时，表示没找到（但l、r可能是0，n，怎么避免：找到一次就更新标记位
     public int[] searchRange(int[] nums, int target) {
-        int leftIdx = searchLeft(nums, target);
-        int rightIdx = searchRight(nums, target);
-        return new int[]{leftIdx, rightIdx};
+        int left = searchLeft(nums, target);
+        if (left == -1) {
+            return new int[] {-1, -1};
+        }
+        int right = searchRight(nums, target);
+        return new int[]{left, right};
     }
 
     private int searchLeft(int[] nums, int target) {
-        int left = 0;
-        int right = nums.length;
-        int leftRes = -1;
-        while (left < right) {
-            int mid = left + (right - left) / 2;
-            if (nums[mid] > target) {
-                right = mid;
-            } else if (nums[mid] < target) {
-                left = mid + 1;
+        int l = 0, r = nums.length - 1;
+        while (l <= r) {
+            int m = l + (r - l) / 2;
+            if (nums[m] >= target) {
+                r = m - 1;
             } else {
-                leftRes = mid;
-                right = mid;
+                l = m + 1;
             }
         }
-        return leftRes;
+        // l出来具有明确含义，l指向第一个>=target 的位置
+        if (l < nums.length && nums[l] == target){
+            return l;
+        }
+        return -1;
     }
 
     private int searchRight(int[] nums, int target) {
-        int left = 0;
-        int right = nums.length;
-        int rightRes = -1;
-        while (left < right) {
-            int mid = left + (right - left) / 2;
-            if (nums[mid] > target) {
-                right = mid;
-            } else if (nums[mid] < target) {
-                left = mid + 1;
+        int l = 0, r = nums.length - 1;
+        while (l <= r) {
+            int m = l + (r - l) / 2;
+            if (nums[m] <= target) {
+                l = m + 1;
             } else {
-                rightRes = mid;
-                left = mid + 1;
+                r = m - 1; 
             }
         }
-        return rightRes;
+        // r 指向最后一个 <= target 的位置
+        if (r >= 0 && nums[r] == target){
+            return r;
+        }
+        return -1;
     }
 
     // lc 69

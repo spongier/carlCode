@@ -7,7 +7,7 @@ class SlideWindow {
     // 滑动窗口，是双指针的难点，控制窗口!
 
     // lc 209
-    // 思路：1、排序(x，子数组，别想排序了！) 
+    // 思路：1、排序(x，子数组，别想排序了！)
     public int minSubArrayLen(int target, int[] nums) {
         // 窗口：连续子数组，其和>= target
         // 窗口起始位置何时移动：>= target （只控制左指针，不符合>= 进入r的下一轮
@@ -20,7 +20,7 @@ class SlideWindow {
             sum += nums[r];
 
             // 循环操作左指针
-            while (sum >= target){
+            while (sum >= target) {
                 res = Math.min(res, r - l + 1);
                 sum -= nums[l];
                 l++;
@@ -29,7 +29,6 @@ class SlideWindow {
         }
         return res == Integer.MAX_VALUE ? 0 : res;
     }
-
 
     // lc 904
     // 窗口：窗口内最多出现两种水果
@@ -51,14 +50,14 @@ class SlideWindow {
             while (totalType > 2) {
                 // 窗口内水果种类变多，去除掉
                 countTypeNum[fruits[j]]--;
-                if (countTypeNum[fruits[j]] == 0)   totalType--;
+                if (countTypeNum[fruits[j]] == 0)
+                    totalType--;
                 j++;
             }
             res = Math.max(res, i - j + 1);
         }
         return res;
     }
-
 
     // lc 76
     // 窗口就是包含t字符串里面的全部元素，左窗口移动条件：移动到新位置，该位置对应的字符串不再满足窗口条件
@@ -73,10 +72,11 @@ class SlideWindow {
         int res = Integer.MAX_VALUE;
         int L = -1;
         for (int i = 0, j = 0; j < sArr.length; j++) {
-            if (++hash[sArr[j]] <= 0)    demand++;  // 负值表示存在空缺未填满
+            if (++hash[sArr[j]] <= 0)
+                demand++; // 负值表示存在空缺未填满
 
             // 缩小窗口
-            while (i < j && hash[sArr[i]] > 0){
+            while (i < j && hash[sArr[i]] > 0) {
                 hash[sArr[i]]--;
                 i++;
             }
@@ -90,25 +90,25 @@ class SlideWindow {
         return res == Integer.MAX_VALUE ? "" : s.substring(L, L + res);
     }
 
-    //lc 3 按照滑动窗口标准模板来
+    // lc 3 按照滑动窗口标准模板来
     public int lengthOfLongestSubstring(String s) {
         char[] st = s.toCharArray();
         int[] hash = new int[128];
         int res = 0;
         for (int i = 0, j = 0; j < st.length; j++) {
             // j元素历史出现过，左窗口一直缩小到历史出现过j值的位置
-            while (i < j && hash[st[j]] != 0)   hash[st[i++]]--;
+            while (i < j && hash[st[j]] != 0)
+                hash[st[i++]]--;
             hash[st[j]]++;
             res = Math.max(res, j - i + 1);
         }
         return res;
     }
 
-
     public static void main(String[] args) {
         SlideWindow test = new SlideWindow();
         // int[] testArr = new int[] {
-        //     3,3,3,1,2,1,1,2,3,3,4
+        // 3,3,3,1,2,1,1,2,3,3,4
         // };
         // test.totalFruit(testArr);
 

@@ -1,4 +1,5 @@
 package array.二分查找;
+
 class BinarySearch {
     // 二分查找大前提：有序！！数组
 
@@ -10,7 +11,8 @@ class BinarySearch {
         int right = nums.length;
         while (left < right) {
             int mid = left + (right - left) / 2;
-            if (nums[mid] == target)    return mid;
+            if (nums[mid] == target)
+                return mid;
             if (nums[mid] > target) {
                 right = mid;
             } else {
@@ -28,7 +30,7 @@ class BinarySearch {
             int mid = left + (right - left) / 2;
             if (nums[mid] > target) {
                 right = mid;
-            } else if (nums[mid] < target){
+            } else if (nums[mid] < target) {
                 left = mid + 1;
             } else {
                 return mid;
@@ -37,16 +39,15 @@ class BinarySearch {
         return right;
     }
 
-
     // lc 34 升序
     // 常规二分查找l=r时，表示没找到（但l、r可能是0，n，怎么避免：找到一次就更新标记位
     public int[] searchRange(int[] nums, int target) {
         int left = searchLeft(nums, target);
         if (left == -1) {
-            return new int[] {-1, -1};
+            return new int[] { -1, -1 };
         }
         int right = searchRight(nums, target);
-        return new int[]{left, right};
+        return new int[] { left, right };
     }
 
     private int searchLeft(int[] nums, int target) {
@@ -60,7 +61,7 @@ class BinarySearch {
             }
         }
         // l出来具有明确含义，l指向第一个>=target 的位置
-        if (l < nums.length && nums[l] == target){
+        if (l < nums.length && nums[l] == target) {
             return l;
         }
         return -1;
@@ -73,11 +74,11 @@ class BinarySearch {
             if (nums[m] <= target) {
                 l = m + 1;
             } else {
-                r = m - 1; 
+                r = m - 1;
             }
         }
         // r 指向最后一个 <= target 的位置
-        if (r >= 0 && nums[r] == target){
+        if (r >= 0 && nums[r] == target) {
             return r;
         }
         return -1;
@@ -90,9 +91,9 @@ class BinarySearch {
         int r = x;
         while (l <= r) {
             int m = l + (r - l) / 2;
-            if (m > x / m){
+            if (m > x / m) {
                 r = m - 1;
-            } else if (m  < x / m){
+            } else if (m < x / m) {
                 l = m + 1;
             } else {
                 return m;
@@ -101,12 +102,12 @@ class BinarySearch {
         return r;
     }
 
-
     // lc 875 吃香蕉问题，吃的越快，耗时越小
     public int minEatingSpeed(int[] piles, int h) {
         // 题目强调了 h >= piles.length，也就是取数组最大值，就一定能在h小时吃完
         int max = -1;
-        for(int x: piles)   max = Math.max(max, x);
+        for (int x : piles)
+            max = Math.max(max, x);
 
         // 这样就定下k值的区间[1, maxH]
         int l = 1, r = max;
@@ -115,12 +116,13 @@ class BinarySearch {
 
             // 计算时间
             int cost = 0;
-            for(int pile : piles)  cost += (pile % k == 0 ? pile / k : pile / k + 1);
+            for (int pile : piles)
+                cost += (pile % k == 0 ? pile / k : pile / k + 1);
 
             // 缩小范围，寻找左边界
             if (cost > h) {
                 l = k + 1;
-            } else if (cost <= h){
+            } else if (cost <= h) {
                 r = k;
             }
         }
@@ -133,7 +135,8 @@ class BinarySearch {
         int l = 0, r = nums.length - 1;
         while (l <= r) {
             int m = l + (r - l) / 2;
-            if (nums[m] == target)  return m;
+            if (nums[m] == target)
+                return m;
 
             if (nums[m] >= nums[l]) {
                 // mid 处于左段升序 (需要二次比较，如果target < mid值，并不代表target会出现在左侧，也可能是右段)
@@ -144,7 +147,7 @@ class BinarySearch {
                 }
             } else {
                 // mid 处于右段升序
-                if (nums[m] < target && target <= nums[r]){
+                if (nums[m] < target && target <= nums[r]) {
                     l = m + 1;
                 } else {
                     r = m - 1;
@@ -154,8 +157,7 @@ class BinarySearch {
         return -1;
     }
 
-
-    public static void main(String[] args){
+    public static void main(String[] args) {
         BinarySearch test = new BinarySearch();
         test.mySqrt(12);
     }

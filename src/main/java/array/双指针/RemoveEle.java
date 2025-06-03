@@ -83,7 +83,19 @@ class RemoveEle {
     }
   }
 
-  
+  // lc 905 将偶数移动到
+  public int[] sortArrayByParity(int[] nums) {
+    for(int i = 0, j = nums.length - 1; i < j; i++) {
+      if (nums[i] % 2 == 1) {
+        int tmp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = tmp;
+        j--;  // 将奇数往后丢
+        i--;  // 与j交换后的i位置，需要重新监测
+      }
+    }
+    return nums;
+  }
 
   // lc 844
   // #代表删除前面一个字符，删完后的字符对比是不是一样的

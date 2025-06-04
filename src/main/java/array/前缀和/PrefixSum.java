@@ -26,13 +26,51 @@ public class PrefixSum {
         return count;
     }
 
-    // lc 304 二维区域和
-    public NumMatrix(int[][] matrix) {
-        
+    // lc 303 一维区间
+    class NumArray {
+
+        private int[] preSum;
+        public NumArray(int[] nums) {
+            int len = nums.length;
+            if (nums == null || len <= 0)   return;
+            preSum = new int[len + 1];
+
+            for (int i = 0; i < len; i++) {
+                preSum[i + 1] = preSum[i] + nums[i];
+            }
+        }
+
+        public int sumRange(int left, int right) {
+            return preSum[right] - preSum[left];
+        }
     }
-    
-    public int sumRegion(int row1, int col1, int row2, int col2) {
-        
+
+    // lc 304 二维区域和
+    class NumMatrix {
+
+        private int[][] prefixSum;
+
+        public NumMatrix(int[][] matrix) {
+            int rows = matrix.length, cols = matrix[0].length;
+            if (matrix == null || rows == 0 || cols == 0) return;
+            prefixSum = new int[rows + 1][cols + 1];
+
+            for (int i = 1; i <= rows; i++) {
+                for (int j = 1; j <= cols; j++) {
+                    prefixSum[i][j] = matrix[i - 1][j - 1]
+                            + prefixSum[i - 1][j]
+                            + prefixSum[i][j - 1]
+                            - prefixSum[i - 1][j - 1];
+                }
+            }
+        }
+
+        public int sumRegion(int row1, int col1, int row2, int col2) {
+            return prefixSum[row2 + 1][col2 + 1]
+                    - prefixSum[row2 + 1][col1]
+                    - prefixSum[row1][col2 + 1]
+                    + prefixSum[row1][col1];
+        }
     }
 
     // lc 363
@@ -47,7 +85,7 @@ public class PrefixSum {
 
             // 内层循环，枚举下边界
             for (int r2 = r1; r2 < rows; r2++) {
-                
+
                 // 更新列累加和
                 for (int i = 0; i <= cols; i++) {
                     colSum[i] += matrix[r2][i];
@@ -57,10 +95,10 @@ public class PrefixSum {
                 TreeSet<Integer> prefixSet = new TreeSet<>();
                 prefixSet.add(0);
                 int curPrefix = 0;
-                
+
                 for (int num : colSum) {
                     curPrefix += num;
-                    // curSum - preSum <= k   --->  preSum >= curSum - k
+                    // curSum - preSum <= k ---> preSum >= curSum - k
                     Integer tar = prefixSet.ceiling(curPrefix - k);
                     if (tar != null) {
                         maxRes = Math.max(maxRes, curPrefix - tar);

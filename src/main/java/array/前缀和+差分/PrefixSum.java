@@ -57,8 +57,7 @@ public class PrefixSum {
         }
     }
 
-
-    // lc 560 
+    // lc 560
     public int subarraySum(int[] nums, int k) {
         // 一维数组找 子数组和为k
         HashMap<Integer, Integer> map = new HashMap<>();
@@ -139,4 +138,42 @@ public class PrefixSum {
         return maxRes;
     }
 
+    // lc 1109 差分数组
+    public int[] corpFlightBookings(int[][] bookings, int n) {
+        int[] diff = new int[n + 1];
+        for (int[] b : bookings) {
+            int f = b[0], l = b[1], s = b[2];
+            diff[f] += s; // f位置需要+10，之后完成累加，区间就统一+10
+            if (l + 1 <= n) {
+                diff[l + 1] -= s; // 反向-10，相当于从此位置开始抵消10
+            }
+        }
+
+        int[] res = new int[n];
+        res[0] = diff[1]; // 题目是从1号机位开始
+        for (int i = 1; i < n; i++) {
+            res[i] = res[i - 1] + diff[i + 1];
+        }
+        return res;
+    }
+
+    // lc 1094
+    public boolean carPooling(int[][] trips, int capacity) {
+        int[] diff = new int[1001];
+        for (int[] trip : trips) {
+            int num = trip[0], from = trip[1], to = trip[2];
+            diff[from] += num;
+            if (to < 1001)
+                diff[to] -= num; // 乘客会在to点下车上车
+        }
+
+        // 计算每个站的人数，统计是否超载
+        int pass = 0;
+        for (int d : diff) {
+            pass += d;
+            if (pass > capacity)
+                return false;
+        }
+        return true;
+    }
 }
